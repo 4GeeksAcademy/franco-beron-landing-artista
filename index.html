@@ -59,7 +59,7 @@
                 Obras en acrílico inspiradas en la naturaleza y las emociones.
             </p>
 
-            <a href="https://wa.me/59898123456" class="btn" target="_blank">
+            <a href="https://wa.me/59898123456?text=Hola%20Evelyn,%20me%20gustaría%20saber%20más%20sobre%20tus%20obras." class="btn" target="_blank">
                 Contactar por WhatsApp
             </a>
         </div>
@@ -101,8 +101,46 @@
             <p class="obra-descripcion"><strong>Intención:</strong> Mediante el scumbling, logro un juego de luces y sombras que refleja el movimiento del agua. La obra invita a contemplar cómo la luz danza sobre las superficies naturales, creando una experiencia visual envolvente.</p>
         </article>
 
+        <article class="obra">
+            <img src="https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Paisaje de campo al atardecer con pinceladas de acrílico y pincel seco">
+            <h3>Atardecer de Paysandú</h3>
+            <p class="obra-tecnica"><strong>Técnica:</strong> Pincel seco y acrílico</p>
+            <p class="obra-medidas"><strong>Medidas:</strong> 90 cm × 70 cm</p>
+            <p class="obra-descripcion"><strong>Intención:</strong> Recrea los tonos cálidos del ocaso sobre los campos uruguayos, transmitiendo calma y nostalgia a través de capas suaves y texturas luminosas.</p>
+        </article>
+
+        <article class="obra">
+            <img src="https://images.unsplash.com/photo-1533158326339-7f3cf2404354?q=80&w=768&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Detalle de flores silvestres con técnica de punteado y pincel seco">
+            <h3>Flor de Campo</h3>
+            <p class="obra-tecnica"><strong>Técnica:</strong> Stippling (punteado) y pincel seco</p>
+            <p class="obra-medidas"><strong>Medidas:</strong> 60 cm × 60 cm</p>
+            <p class="obra-descripcion"><strong>Intención:</strong> Busca capturar la delicadeza de la flora nativa, usando puntos y texturas para resaltar la fuerza de cada pétalo y su conexión con la tierra.</p>
+        </article>
+
+        <article class="obra">
+            <img src="https://images.unsplash.com/photo-1579541591970-e5780dc6b31f?q=80&w=1343&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Paisaje acuático con tonalidades frías y capas de scumbling">
+            <h3>Sueño Acuático</h3>
+            <p class="obra-tecnica"><strong>Técnica:</strong> Scumbling</p>
+            <p class="obra-medidas"><strong>Medidas:</strong> 120 cm × 90 cm</p>
+            <p class="obra-descripcion"><strong>Intención:</strong> El paisaje busca transmitir serenidad y movimiento, usando veladuras y capas para reflejar el brillo suave del agua y la profundidad del paisaje.</p>
+        </article>
+
     </div>
 </section>
+
+<!-- MODAL GALERÍA -->
+<div class="modal" id="image-modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
+    <div class="modal-content">
+        <button class="modal-close" aria-label="Cerrar imagen">×</button>
+        <img src="" alt="" class="modal-img">
+        <div class="modal-copy">
+            <h3 id="modal-title"></h3>
+            <p class="obra-tecnica"></p>
+            <p class="obra-medidas"></p>
+            <p class="obra-descripcion"></p>
+        </div>
+    </div>
+</div>
 
 <!-- SOBRE -->
 <section id="sobre" class="sobre">
@@ -430,10 +468,12 @@
 
         <div class="contacto-cta">
             <a href="https://wa.me/59898123456?text=Hola%20Evelyn%2C%20quiero%20consultar%20sobre%20tus%20servicios"
-               class="btn"
+               class="whatsapp-float"
                target="_blank"
-               rel="noopener noreferrer">
-                💬 Escribirme por WhatsApp
+               rel="noopener noreferrer"
+               aria-label="Contactar por WhatsApp">
+                <span aria-hidden="true">💬</span>
+                <span class="sr-only">Contactar por WhatsApp</span>
             </a>
         </div>
     </div>
@@ -632,6 +672,54 @@ document.addEventListener('DOMContentLoaded', function() {
             hamburger.setAttribute('aria-expanded', 'false');
             nav.classList.remove('nav-open');
             hamburger.classList.remove('hamburger-open');
+        }
+    });
+
+    const modal = document.getElementById('image-modal');
+    const modalImg = modal.querySelector('.modal-img');
+    const modalTitle = modal.querySelector('#modal-title');
+    const modalTechnique = modal.querySelector('.obra-tecnica');
+    const modalMeasures = modal.querySelector('.obra-medidas');
+    const modalDescription = modal.querySelector('.obra-descripcion');
+    const modalClose = modal.querySelector('.modal-close');
+
+    function closeModal() {
+        modal.classList.remove('modal-open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.obra img').forEach(img => {
+        img.addEventListener('click', function() {
+            const article = img.closest('.obra');
+            const title = article.querySelector('h3').textContent;
+            const technique = article.querySelector('.obra-tecnica').textContent;
+            const measures = article.querySelector('.obra-medidas').textContent;
+            const description = article.querySelector('.obra-descripcion').textContent;
+
+            modalImg.src = img.src;
+            modalImg.alt = img.alt;
+            modalTitle.textContent = title;
+            modalTechnique.textContent = technique;
+            modalMeasures.textContent = measures;
+            modalDescription.textContent = description;
+            modal.setAttribute('aria-hidden', 'false');
+            modal.classList.add('modal-open');
+            document.body.style.overflow = 'hidden';
+            modalClose.focus();
+        });
+    });
+
+    modalClose.addEventListener('click', closeModal);
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.classList.contains('modal-open')) {
+            closeModal();
         }
     });
 });
